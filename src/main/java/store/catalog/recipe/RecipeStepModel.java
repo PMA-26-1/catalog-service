@@ -27,7 +27,7 @@ import store.catalog.procedure.ProcedureModel;
 @NoArgsConstructor @AllArgsConstructor
 public class RecipeStepModel {
 
-    // ID is client-supplied (Option A from design): the parser either accepts the
+    // ID is client-supplied: the parser either accepts the
     // client's ID or generates one in advance, so prerequisite references can be
     // wired up before persistence.
 

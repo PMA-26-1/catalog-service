@@ -1,3 +1,28 @@
+server:
+  port: 8080
+
 spring:
   application:
-    name: catalog-service
+    name: catalog
+
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    baseline-on-migrate: true
+    schemas: catalog
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: catalog
+
+management:
+  endpoints:
+    web:
+      base-path: /catalog/actuator
+      exposure:
+        include: ['prometheus']
