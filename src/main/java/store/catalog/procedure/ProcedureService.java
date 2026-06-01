@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +25,7 @@ public class ProcedureService {
         return procedureRepository.save(new ProcedureModel(p)).to();
     }
 
+    @CacheEvict(value = "procedures", key = "#id")
     public Procedure update(String id, Procedure p) {
 
         ProcedureModel model = procedureRepository.findById(id)
@@ -33,10 +36,12 @@ public class ProcedureService {
         return procedureRepository.save(model).to();
     }
 
+    @CacheEvict(value = "procedures", key = "#id")
     public void delete(String id) {
         procedureRepository.deleteById(id);
     }
 
+    @Cacheable(value = "procedures", key = "#id")
     public Procedure findById(String id) {
 
         return procedureRepository.findById(id)

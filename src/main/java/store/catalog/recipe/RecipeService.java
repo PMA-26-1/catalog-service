@@ -10,6 +10,8 @@ import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,7 @@ public class RecipeService {
         return modelTo(recipeRepository.save(model));
     }
 
+    @CacheEvict(value = "recipes", key = "#id")
     public Recipe update(String id, Recipe r) {
 
         RecipeModel model = recipeRepository.findById(id)
@@ -63,10 +66,12 @@ public class RecipeService {
         return modelTo(recipeRepository.save(model));
     }
 
+    @CacheEvict(value = "recipes", key = "#id")
     public void delete(String id) {
         recipeRepository.deleteById(id);
     }
 
+    @Cacheable(value = "recipes", key = "#id")
     public Recipe findById(String id) {
 
         return recipeRepository.findById(id)

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class IngredientService {
         return ingredientRepository.save(new IngredientModel(i)).to();
     }
 
+    @CacheEvict(value = "ingredients", key = "#id")
     public Ingredient update(String id, Ingredient i) {
 
         IngredientModel model = ingredientRepository.findById(id)
@@ -48,10 +51,12 @@ public class IngredientService {
         return ingredientRepository.save(model).to();
     }
 
+    @CacheEvict(value = "ingredients", key = "#id")
     public void delete(String id) {
         ingredientRepository.deleteById(id);
     }
 
+    @Cacheable(value = "ingredients", key = "#id")
     public Ingredient findById(String id) {
 
         return ingredientRepository.findById(id)
