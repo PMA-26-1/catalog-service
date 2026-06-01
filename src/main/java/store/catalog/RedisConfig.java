@@ -8,8 +8,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Configuration
 public class RedisConfig {
 
@@ -19,11 +17,11 @@ public class RedisConfig {
 
     @SuppressWarnings("removal")
     @Bean
-    public RedisCacheConfiguration cacheConfiguration(ObjectMapper objectMapper) {
+    public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
             .serializeValuesWith(
                 RedisSerializationContext.SerializationPair.fromSerializer(
-                    new GenericJackson2JsonRedisSerializer(objectMapper)
+                    new GenericJackson2JsonRedisSerializer()
                 )
             )
             .entryTtl(Duration.ofMinutes(5))
